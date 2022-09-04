@@ -22,7 +22,7 @@ Este es un buscador de autos, donde se aplican distintos filtros en las búsqued
 - [JavaScript](https://developer.mozilla.org/es/docs/Web/JavaScript)
 
 
-## **Screenshots:**
+<!-- ## **Screenshots:**
 
 ### 1. App:
 ## ![](public/images/flujo-compra/home.png)
@@ -33,7 +33,7 @@ Este es un buscador de autos, donde se aplican distintos filtros en las búsqued
 
 
 ### 3. Filtros B:
-## ![](public/images/flujo-compra/detalle-producto.png)
+## ![](public/images/flujo-compra/detalle-producto.png) -->
 
 
 <!-- Hecho con amor -->
