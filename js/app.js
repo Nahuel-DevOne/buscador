@@ -49,27 +49,33 @@ marca.addEventListener('change', e => {
 });
 
 year.addEventListener('change', e => {
-    datosBusqueda.year = e.target.value;
+    datosBusqueda.year = parseInt(e.target.value);
+    filtrarAuto();
 });
 
 minimo.addEventListener('change', e => {
     datosBusqueda.minimo = e.target.value;
+    filtrarAuto();
 });
 
 maximo.addEventListener('change', e => {
     datosBusqueda.maximo = e.target.value;
+    filtrarAuto();
 });
 
 puertas.addEventListener('change', e => {
     datosBusqueda.puertas = e.target.value;
+    filtrarAuto();
 });
 
 transmision.addEventListener('change', e => {
     datosBusqueda.transmision = e.target.value;
+    filtrarAuto();
 });
 
 color.addEventListener('change', e => {
     datosBusqueda.color = e.target.value;
+    filtrarAuto();
     console.log(datosBusqueda);
 });
 
@@ -107,6 +113,7 @@ const filtrarAuto = () => {
     // usando funciones de orden superior (higher order functions)
     // filter() crea un nuevo arreglo con los elementos que cumplan la condición
     // filter() recibe una función como parametro, por eso actua como higher order function
+    // filter() soporta lo que se llama chainning o encadenamiento, es decir, se pueden encadenar varias funciones.
     const resultado = autos.filter(filtrarMarca).filter(filtrarYear).filter(filtrarMinimo).filter(filtrarMaximo).filter(filtrarPuertas).filter(filtrarTransmision).filter(filtrarColor);
     console.log(resultado);
 }
@@ -124,11 +131,14 @@ const filtrarMarca = auto => {
 
 // Funciones para filtrar por año
 const filtrarYear = auto => {
-    if(datosBusqueda.year) {
-        return auto.year === parseInt(datosBusqueda.year);
-    } else {
-        return auto;
-    }
+    const {year} = datosBusqueda;
+    // console.log(typeof year); // el valor de year es un string sin el parseInt
+    // ahora con el parseInt aplicado en el evento, el valor de year es un numero
+    // console.log(typeof auto.year); // el valor de auto.year es un number
+    if(year) {  
+        return auto.year === year;
+    }     
+    return auto; 
 }
 
 // Funciones para filtrar por precio minimo
