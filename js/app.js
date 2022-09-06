@@ -64,7 +64,7 @@ maximo.addEventListener('change', e => {
 });
 
 puertas.addEventListener('change', e => {
-    datosBusqueda.puertas = e.target.value;
+    datosBusqueda.puertas = parseInt(e.target.value);
     filtrarAuto();
 });
 
@@ -83,6 +83,8 @@ color.addEventListener('change', e => {
 // Genera los autos
 const mostrarAutos = (autos) => {
     
+    limpiarHTML(); // Elimina el HTML previo
+
     autos.forEach(auto => {
         // Destructuring, para evitar auto.marca, auto.modelo, etc
         const { marca, modelo, year, puertas, color, transmision, precio } = auto;
@@ -95,6 +97,15 @@ const mostrarAutos = (autos) => {
         // insertando el HTML en el DOM
         resultado.appendChild(autoHTML);
     });
+}
+
+// Limpia el HTML
+const limpiarHTML = () => {
+    // forma lenta
+    // resultado.innerHTML = '';
+    while(resultado.firstChild) {
+        resultado.removeChild(resultado.firstChild);
+    }
 }
 
 // Genera los años del select
@@ -116,9 +127,23 @@ const filtrarAuto = () => {
     // filter() soporta lo que se llama chainning o encadenamiento, es decir, se pueden encadenar varias funciones.
     const resultado = autos.filter(filtrarMarca).filter(filtrarYear).filter(filtrarMinimo).filter(filtrarMaximo).filter(filtrarPuertas).filter(filtrarTransmision).filter(filtrarColor);
     console.log(resultado);
+
+    if(resultado.length) {
+        mostrarAutos(resultado);
+    } else {
+        noResultado();
+    }  
 }
 
-// Funciones para filtrar por marca
+const noResultado = () => {
+    limpiarHTML();
+    const noResultado = document.createElement('div');
+    noResultado.classList.add('alerta', 'error');
+    noResultado.textContent = 'No hay resultados, intenta con otros términos de búsqueda';
+    resultado.appendChild(noResultado);
+}
+
+// Función para filtrar por marca
 const filtrarMarca = auto => {
     // aplicando destructuring para poner marca y no datosBusqueda.marca
     const {marca} = datosBusqueda;
@@ -129,7 +154,7 @@ const filtrarMarca = auto => {
     return auto; // si el valor de la marca es vacio, retorna el objeto auto
 }
 
-// Funciones para filtrar por año
+// Función para filtrar por año
 const filtrarYear = auto => {
     const {year} = datosBusqueda;
     // console.log(typeof year); // el valor de year es un string sin el parseInt
@@ -141,50 +166,49 @@ const filtrarYear = auto => {
     return auto; 
 }
 
-// Funciones para filtrar por precio minimo
+// Función para filtrar por precio minimo
 const filtrarMinimo = auto => {
-    if(datosBusqueda.minimo) {
-        return auto.precio >= parseInt(datosBusqueda.minimo);
-    } else {
-        return auto;
-    }
+    const {minimo} = datosBusqueda;
+    if(minimo) {
+        // retorna los autos que cumplan la condición
+        return auto.precio >= minimo; // minimo  es un string, pero el >= no es un operador estricto, y lo toma como number en la comparación
+    } 
+    return auto;
 }
 
-// Funciones para filtrar por precio maximo
+// Función para filtrar por precio maximo
 const filtrarMaximo = auto => {
-    if(datosBusqueda.maximo) {
-        return auto.precio <= parseInt(datosBusqueda.maximo);
-    } else {
-        return auto;
+    const {maximo} = datosBusqueda;
+    if(maximo) {
+        return auto.precio <= maximo;
     }
+    return auto;
 }
 
-// Funciones para filtrar por numero de puertas
+// Función para filtrar por numero de puertas
 const filtrarPuertas = auto => {
-    if(datosBusqueda.puertas) {
-        return auto.puertas === parseInt(datosBusqueda.puertas);
-    } else {
-        return auto;
+    const {puertas} = datosBusqueda;
+    if(puertas) {
+        return auto.puertas === puertas;
     }
+    return auto;
 }
 
-// Funciones
+// Función para filtrar por tipo de transmisión
 const filtrarTransmision = auto => {
-    if(datosBusqueda.transmision) {
-        return auto.transmision
-    } else {
-        return auto;
+    const {transmision} = datosBusqueda;
+    if(transmision) {
+        return auto.transmision === transmision;
     }
+    return auto;
 }
 
-// Funciones
+// Función para filtrar por color
 const filtrarColor = auto => {
-    if(datosBusqueda.color) {
-        return auto.color
-    } else {
-        return auto;
+    const {color} = datosBusqueda;
+    if(color) {
+        return auto.color === color;
     }
+    return auto;
 }
-
-
 

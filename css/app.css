@@ -61,7 +61,7 @@ form {
     font-size: 2rem;
 }
 .error {
-    background-color: red;
+    background-color: rgb(236, 62, 62);
 }
 
 .sitio-web  {
